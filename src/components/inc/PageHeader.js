@@ -16,6 +16,7 @@ function PageHeader() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
   return(
     <>
     <Container className='container-fluid'>
@@ -38,7 +39,7 @@ function PageHeader() {
             <Nav.Link as={Link} to="../home"><FaHome />Home</Nav.Link>
             <Nav.Link as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
             <Nav.Link as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
-            <Nav.Link as={Link} to="../home"><IoLogOut />Logout</Nav.Link>
+            <Nav.Link onClick={ logout }><IoLogOut />Logout</Nav.Link>
           </IconContext.Provider>
         </Nav>
       </Offcanvas.Body>
