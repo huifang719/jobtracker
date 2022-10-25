@@ -3,6 +3,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
+import React from 'react';
 
 function LogIn() {
   const [ password, setPassword ] = useState('')
@@ -10,7 +11,8 @@ function LogIn() {
   const [icon, setIcon] = useState(AiFillEye)
   const [loggedInEmail, setloggedInEmail] = useState(null)
   const [errorMessage, setErrorMessage] = useEffect('')
-
+  
+  const MyContext = React.createContext(loggedInEmail);
   const handlePasswordChange = event => {
     const newPassword = event.target.value
     setPassword(newPassword)

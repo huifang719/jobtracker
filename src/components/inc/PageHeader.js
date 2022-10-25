@@ -23,12 +23,9 @@ function PageHeader() {
         <Col className='col-sm-12 col-md-4 col-lg-3'>
           <CgMenuRound variant="primary" onClick={handleShow}/>
         </Col>
-        <Col className='col-sm-12 col-md-7 col-lg-8' >
-          <Quote />
-        </Col>
       </Row>
     </Container>
-    <Offcanvas show={show} onHide={handleClose}>
+    <Offcanvas style={{width:"200px"}}show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>JobTracker</Offcanvas.Title>
       </Offcanvas.Header>
@@ -41,6 +38,7 @@ function PageHeader() {
             <Nav.Link as={Link} to="/"><IoLogOut />Logout</Nav.Link>
           </IconContext.Provider>
         </Nav>
+        <Quote />
       </Offcanvas.Body>
     </Offcanvas>
   </>
