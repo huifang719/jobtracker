@@ -9,6 +9,7 @@ function LogIn() {
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
   const [loggedInEmail, setloggedInEmail] = useState(null)
+  const [errorMessage, setErrorMessage] = useEffect('')
 
   const handlePasswordChange = event => {
     const newPassword = event.target.value
@@ -41,6 +42,18 @@ function LogIn() {
       .then(res => res.json())
       .then(email => setloggedInEmail(email))  
   }
+
+  const checkSession = () => {
+    fetch('/api/sessions')
+    .then(res => res.json())
+    .then(email => {
+    if (typeof email === 'string') {
+      setloggedInEmail(email)
+    }
+  })
+  }
+
+  useEffect(checkSession, [loggedInEmail])
 
   return(
     <Container className='mx-auto mt-5' style={{width:"70%"}}>
