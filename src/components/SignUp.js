@@ -63,20 +63,22 @@ function SignUp() {
 
   useEffect(CheckConsistancy, [comfirmPassword])
 
-  const signup = () => {
-    
+  const signUp = event => {
+    const form = event.target
+    const data = Object.fromEntries(new FormData(form))
+    console.log(data)
      if (consistancy) {
       fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ burgerLayers })
+        body: JSON.stringify(data)
       })
     }
   }
 
   return (
     <Container className='mx-auto mt-5' style={{width:"70%"}}>
-      <Form onSubmit={() => saveUser(name, email, password)}>
+      <Form onSubmit={signUp}>
         <h1 className='text-center'>Sign Up</h1>
         <Form.Group className="mb-3" controlId="formBasicUserName">
           <Form.Label>Username</Form.Label>
