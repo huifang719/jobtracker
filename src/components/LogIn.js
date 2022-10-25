@@ -8,6 +8,7 @@ function LogIn() {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
+  const [loggedInEmail, setloggedInEmail] = useState(null)
 
   const handlePasswordChange = event => {
     const newPassword = event.target.value
@@ -29,14 +30,16 @@ function LogIn() {
   }
 
   const logIn = event => {
+    event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
-    console.log(data)
     fetch('/api/sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }) 
+      .then(res => res.json())
+      .then(email => setloggedInEmail(email))  
   }
 
   return(
