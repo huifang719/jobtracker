@@ -11,6 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Quote from './Quote';
+import jobtracker from "../img/jobtracker.png"
 
 function PageHeader() {
   const [show, setShow] = useState(false);
@@ -27,16 +28,13 @@ function PageHeader() {
   }
   return(
     <>
-    <Container className='container-fluid'>
-      <Row className='row'>
-        <Col className='col-sm-12 col-md-4 col-lg-3'>
-          <CgMenuRound variant="primary" onClick={handleShow}/>
-        </Col>
+      <Row className='row justify-content-center'>
+          <img style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
       </Row>
-    </Container>
-    <Offcanvas style={{width:"200px"}}show={show} onHide={handleClose}>
+   
+    <Offcanvas style={{width:"300px"}}show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>JobTracker</Offcanvas.Title>
+        <Offcanvas.Title><img style={{height:"70px", width:"auto"}} src={jobtracker} alt="" /></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav defaultActiveKey="/" className="flex-column">

@@ -67,7 +67,7 @@ function LogIn() {
   useEffect(checkSession, [loggedInEmail])
 
   return(
-    <Container className='mx-auto mt-5' style={{width:"70%"}}>
+    <Container className='mx-auto mt-1' style={{width:"70%"}}>
     <Form  onSubmit={logIn}>
       <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -82,7 +82,7 @@ function LogIn() {
           </div>       
       </Form.Group>   
       <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div> 
-      <Button variant="primary" type="submit">
+      <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} type="submit">
         Submit
       </Button>
     </Form>

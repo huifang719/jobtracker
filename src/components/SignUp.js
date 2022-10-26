@@ -88,7 +88,7 @@ function SignUp() {
   }
 
   return (
-    <Container className='mx-auto mt-5' style={{width:"70%"}}>
+    <Container className='mx-auto mt-1' style={{width:"70%"}}>
       <Form onSubmit={signUp}>
         <h1 className='text-center'>Sign Up</h1>
         <Form.Group className="mb-3" controlId="formBasicUserName">
@@ -113,11 +113,11 @@ function SignUp() {
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
           <Form.Control onChange={handleComfirmPasswordChange} type={showComfirm? "text": "password"}  placeholder="comfirmPassword" />
-          <Button inline className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
+          <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
           </div>
         </Form.Group>
         <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div> 
-        <Button variant="primary" type="submit">
+        <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} type="submit">
           Submit
         </Button>
       </Form>
