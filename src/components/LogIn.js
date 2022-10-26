@@ -4,17 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
-function LogIn() {
+function LogIn({  logIn, errorMessage }) {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
-  const [loggedInEmail, setloggedInEmail] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+ 
 
-  const navigate = useNavigate()
-  
   const handlePasswordChange = event => {
     const newPassword = event.target.value
     setPassword(newPassword)
@@ -34,41 +30,9 @@ function LogIn() {
     setIcon(icon)
   }
 
-  const logIn = event => {
-    const form = event.target
-    const data = Object.fromEntries(new FormData(form))
-    fetch('/api/sessions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }) 
-      .then(res => res.json())
-      .then(res => {
-        if (typeof res === 'string') {
-          setloggedInEmail(res)
-          navigate('/')
-        } else {
-          setErrorMessage(res.error)
-        }
-        }
-      )  
-  }
-
-  const checkSession = () => {
-    fetch('/api/sessions')
-    .then(res => res.json())
-    .then(email => {
-    if (typeof email === 'string') {
-      setloggedInEmail(email)
-    }
-  })
-  }
-
-  useEffect(checkSession, [loggedInEmail])
-
   return(
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
-    <Form  onSubmit={logIn} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
+    <Form  onSubmit={ logIn } style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
       <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>

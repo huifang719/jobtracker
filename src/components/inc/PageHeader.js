@@ -9,19 +9,11 @@ import { Row, Button, Form, Col } from 'react-bootstrap';
 import Quote from './Quote';
 import jobtracker from "../img/jobtracker.png"
 
-function PageHeader() {
+function PageHeader({ logOut }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const logOut = () => {
-    fetch('/api/sessions', {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(res => {
-    console.log('successfully logged out')
-  })
-  }
+
   return(
     <>
       <Row className='d-flex me-6  container-fluid justify-content-space-between'>
@@ -33,7 +25,7 @@ function PageHeader() {
               className="me-2"
               aria-label="Search"
             />
-            <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
+            <Button onClick={ searchForJob }  style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
           </Form>
         </Col>
         <Col className='col-1 me-lg-3 me-sm-1 justify-content-end'>
