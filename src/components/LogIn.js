@@ -10,9 +10,8 @@ function LogIn() {
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
   const [loggedInEmail, setloggedInEmail] = useState(null)
-  const [errorMessage, setErrorMessage] = useEffect('')
+  const [errorMessage, setErrorMessage] = useState(null)
   
-  const MyContext = React.createContext(loggedInEmail);
   const handlePasswordChange = event => {
     const newPassword = event.target.value
     setPassword(newPassword)
@@ -33,7 +32,6 @@ function LogIn() {
   }
 
   const logIn = event => {
-    event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
     fetch('/api/sessions', {
@@ -42,7 +40,15 @@ function LogIn() {
       body: JSON.stringify(data)
     }) 
       .then(res => res.json())
-      .then(email => setloggedInEmail(email))  
+      .then(res => {
+        console.log(res)
+        if (typeof res === 'string') {
+          setloggedInEmail(res)
+        } else {
+          setErrorMessage(res.error)
+        }
+        }
+      )  
   }
 
   const checkSession = () => {
@@ -74,8 +80,11 @@ function LogIn() {
           </Form.Group> 
       <Button variant="primary" type="submit">
         Submit
-      </Button>
+      </Button>{}
+      <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div>
     </Form>
+    
+    
   </Container>
   )
 }

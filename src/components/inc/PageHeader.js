@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { MyContext } from '../LogIn'
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom'
@@ -10,12 +11,20 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Quote from './Quote';
+
 function PageHeader() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+  const logOut = () => {
+    fetch('/api/sessions', {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(res => {
+    console.log('successfully logged out')
+  })
+  }
   return(
     <>
     <Container className='container-fluid'>
@@ -35,7 +44,7 @@ function PageHeader() {
             <Nav.Link as={Link} to="/"><FaHome />Home</Nav.Link>
             <Nav.Link as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
             <Nav.Link as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
-            <Nav.Link as={Link} to="/"><IoLogOut />Logout</Nav.Link>
+            <Nav.Link onClick={ logOut }><IoLogOut />Logout</Nav.Link>
           </IconContext.Provider>
         </Nav>
         <Quote />
