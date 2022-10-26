@@ -68,7 +68,7 @@ function LogIn() {
 
   return(
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
-    <Form  onSubmit={logIn}>
+    <Form  onSubmit={logIn} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
       <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>

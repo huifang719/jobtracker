@@ -1,8 +1,12 @@
 .App {
-  text-align: center;
-  background-image: url('./components/img/bg.jpg');
   background-size: cover;
-  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-position-y:top;
+  min-height: 100vh;
+  background: white url('./components/img/bg.jpg') center center no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
 }
 
 
