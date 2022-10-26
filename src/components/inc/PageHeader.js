@@ -1,15 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { MyContext } from '../LogIn'
+import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { IoLogIn, IoEarthOutline, IoLogOut } from 'react-icons/io5'
-import { CgMenuRound } from 'react-icons/cg'
 import { IconContext } from 'react-icons'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Button, Form, Col } from 'react-bootstrap';
 import Quote from './Quote';
 import jobtracker from "../img/jobtracker.png"
 
@@ -28,8 +24,21 @@ function PageHeader() {
   }
   return(
     <>
-      <Row className='row justify-content-end me-6'>
-          <img style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
+      <Row className='d-flex me-6 justify-content-space-between'>
+        <Col className='col-9 ms-lg-3 ms-sm-2 align-content-center'>
+          <Form className='d-flex mt-4' style={{height: "3rem"}}>
+            <Form.Control
+              type="search"
+              placeholder="Search by job title or location"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
+          </Form>
+        </Col>
+        <Col className='col-1 me-lg-3 me-sm-1 justify-content-end'>
+          <img className='col-1 ' style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
+        </Col>
       </Row>
    
     <Offcanvas style={{width:"300px"}}show={show} onHide={handleClose}>
