@@ -28,7 +28,7 @@ function PageHeader() {
   }
   return(
     <>
-      <Row className='row justify-content-center'>
+      <Row className='row justify-content-end me-6'>
           <img style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
       </Row>
    
