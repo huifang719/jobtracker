@@ -9,7 +9,7 @@ import { Row, Button, Form, Col } from 'react-bootstrap';
 import Quote from './Quote';
 import jobtracker from "../img/jobtracker.png"
 
-function PageHeader({ logOut }) {
+function PageHeader( { logOut, searchForJob } ) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,14 +18,22 @@ function PageHeader({ logOut }) {
     <>
       <Row className='d-flex me-6  container-fluid justify-content-space-between'>
         <Col className='col-9 ms-lg-3 ms-sm-2 align-content-center'>
-          <Form className='d-flex mt-4' style={{height: "3rem"}}>
+          <Form onSubmit={ searchForJob } className='d-flex mt-4' style={{height: "3rem"}}>
             <Form.Control
               type="search"
-              placeholder="Search by job title or location"
+              placeholder="Job Title"
               className="me-2"
+              name = "title"
               aria-label="Search"
             />
-            <Button onClick={ searchForJob }  style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
+             <Form.Control
+              type="search"
+              placeholder="Location"
+              className="me-2"
+              name = "location"
+              aria-label="Search"
+            />
+            <Button type="submit"  style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
           </Form>
         </Col>
         <Col className='col-1 me-lg-3 me-sm-1 justify-content-end'>
