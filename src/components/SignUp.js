@@ -1,10 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import ShowStrength from './inc/ShowStrength'
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const [ password, setPassword ] = useState('')
@@ -14,6 +14,9 @@ function SignUp() {
   const [showComfirm, setShowComfirm] = useState(false)
   const [iconComfirm, setIconComfirm] = useState(AiFillEye)
   const [consistancy, setConsistancy] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const navigate = useNavigate()
   
   const handlePasswordChange = event => {
     const newPassword = event.target.value
@@ -64,14 +67,22 @@ function SignUp() {
   useEffect(CheckConsistancy, [comfirmPassword])
 
   const signUp = event => {
+    event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
-    console.log(data)
      if (consistancy) {
       fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
+      }) 
+      .then(res => res.json())
+      .then(res => {
+        if (typeof res === 'string') {
+          navigate('/logIn')
+        } else {
+          setErrorMessage(res.error)
+        }
       })
     }
   }
@@ -105,10 +116,12 @@ function SignUp() {
           <Button inline className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
           </div>
         </Form.Group>
+        <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div> 
         <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>
+
     </Container>
   )
 }

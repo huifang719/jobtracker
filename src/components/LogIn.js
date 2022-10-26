@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LogIn() {
   const [ password, setPassword ] = useState('')
@@ -11,6 +12,8 @@ function LogIn() {
   const [icon, setIcon] = useState(AiFillEye)
   const [loggedInEmail, setloggedInEmail] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+
+  const navigate = useNavigate()
   
   const handlePasswordChange = event => {
     const newPassword = event.target.value
@@ -41,9 +44,9 @@ function LogIn() {
     }) 
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         if (typeof res === 'string') {
           setloggedInEmail(res)
+          navigate('/')
         } else {
           setErrorMessage(res.error)
         }
@@ -72,20 +75,19 @@ function LogIn() {
         <Form.Control type="email" name="email" placeholder="Enter email" />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <div style={{display:"flex"}}>
-              <Form.Control onChange={handlePasswordChange} type={show? "text": "password"} name="password" placeholder="Password" />
-              <Button inline className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
-            </div>       
-          </Form.Group> 
+          <Form.Label>Password</Form.Label>
+          <div style={{display:"flex"}}>
+            <Form.Control onChange={handlePasswordChange} type={show? "text": "password"} name="password" placeholder="Password" />
+            <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
+          </div>       
+      </Form.Group>   
+      <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div> 
       <Button variant="primary" type="submit">
         Submit
-      </Button>{}
-      <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div>
+      </Button>
     </Form>
-    
-    
   </Container>
+  
   )
 }
 
