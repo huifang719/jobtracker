@@ -1,12 +1,16 @@
-import { Container } from "react-bootstrap"
+import { Row, Col } from "react-bootstrap"
 import Calender from "./inc/Calender"
 import VideoForTips from "./inc/VideoForTips"
 function Home () {
   return (
-    <Container style={{display:"block"}}>
-    <VideoForTips />
-    <Calender />
-    </Container>
+    <Row>
+      <Col className="col-sm-12 col-lg-6 col-md-6">
+        <VideoForTips className="w-8 ms-auto"/>
+      </Col>
+      <Col className="col-sm-12 col-lg-6 col-md-6">
+        <Calender className="w-8 ms-auto"/>
+      </Col>
+    </Row>
   )
 }
 
