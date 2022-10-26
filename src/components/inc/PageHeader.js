@@ -24,7 +24,7 @@ function PageHeader() {
   }
   return(
     <>
-      <Row className='d-flex me-6 justify-content-space-between'>
+      <Row className='d-flex me-6  container-fluid justify-content-space-between'>
         <Col className='col-9 ms-lg-3 ms-sm-2 align-content-center'>
           <Form className='d-flex mt-4' style={{height: "3rem"}}>
             <Form.Control
@@ -41,17 +41,17 @@ function PageHeader() {
         </Col>
       </Row>
    
-    <Offcanvas style={{width:"300px"}}show={show} onHide={handleClose}>
+    <Offcanvas placement={'end'} style={{width:"300px"}}show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title><img style={{height:"70px", width:"auto"}} src={jobtracker} alt="" /></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav defaultActiveKey="/" className="flex-column">
         <IconContext.Provider value={{color:"lightgrey"}}>
-            <Nav.Link as={Link} to="/"><FaHome />Home</Nav.Link>
-            <Nav.Link as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
-            <Nav.Link as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
-            <Nav.Link onClick={ logOut }><IoLogOut />Logout</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="/"><FaHome />Home</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} onClick={ logOut }><IoLogOut />Logout</Nav.Link>
           </IconContext.Provider>
         </Nav>
         <Quote />

@@ -70,7 +70,7 @@ function SignUp() {
     event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
-     if (consistancy) {
+    if (consistancy) {
       fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -84,6 +84,8 @@ function SignUp() {
           setErrorMessage(res.error)
         }
       })
+    } else {
+      setErrorMessage('Password does not match!')
     }
   }
 
