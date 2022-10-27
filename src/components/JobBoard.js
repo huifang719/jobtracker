@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function JobBoard({ loggedInEmail, jobsList }) {
   // const [jobSaved, setJobsaved] = useState({index: false})
-  
+  var icon = <AiOutlineHeart />
   const savedJob = (index, event) => {
     const jobtoBeSaved = jobsList[index]
     if (loggedInEmail !== null) {
@@ -17,6 +17,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([jobtoBeSaved, loggedInEmail])
       })
+      icon = <AiFillHeart />
     }
   }
   return (
@@ -31,7 +32,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
                 {job.description}
               </Card.Text>
               <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> savedJob(index) }><AiOutlineHeart /></Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> savedJob(index) }>{icon}</Button>
             </Card.Body>
           </Card>
         )}
