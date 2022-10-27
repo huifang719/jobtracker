@@ -2,19 +2,41 @@ import { Row, Col } from "react-bootstrap"
 import Calender from "./inc/Calender"
 import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob"
-function Home () {
+import { useState, useEffect } from 'react';
+
+function Home (loggedInEmail) {
+  const [savedJobList, setSavedJobList] =useState(null)
+
+
+  const getSavedJobList = ()  => {
+    const email = loggedInEmail['loggedInEmail']
+    if (typeof email === "string") {
+      fetch(`/api/save/${email}`)
+      .then(res => res.json())
+      .then(jobs => { setSavedJobList(jobs)
+     })  
+    } else {
+      console.log('no user logged in')
+    }   
+  } 
+
+  useEffect(() => {
+    getSavedJobList();
+  }, []);
+  
   return (
-    <div>
-      <Row>
-        <Col className="col-sm-12 col-lg-6 col-md-6">
-          <VideoForTips className="w-8 ms-auto"/>
+    <div style={{width: "80%", margin:"0, auto"}}>
+      <Row className="ms-2 gx-3">
+        <Col className="col-sm-12 col-lg-5 col-md-6 me-lg-auto">
+          <VideoForTips className="mx-auto"/>
         </Col>
-        <Col className="col-sm-12 col-lg-6 col-md-6">
-          <Calender className="w-8 ms-auto"/>
+        <Col className="col-sm-12 col-lg-5 col-md-6 ms-lg-auto">
+          <Calender className="mx-auto"/>
         </Col>
       </Row>
-      <Row>
-        <SavedJob />
+      <Row className="ms-2 gx-3">
+        <SavedJob 
+          savedJobList = {savedJobList} />
       </Row>
     </div>
   )

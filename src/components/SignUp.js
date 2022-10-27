@@ -118,7 +118,7 @@ function SignUp() {
           <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
           </div>
         </Form.Group>
-        <div style={errorMessage===null? {display:"none"}: {color:"red"}}>{errorMessage}</div> 
+        <div style={errorMessage===null? {display:"none"}: {color:"rgb(110,223,94)"}}>{errorMessage}</div> 
         <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} type="submit">
           Submit
         </Button>

@@ -1,13 +1,16 @@
 .App {
   background-size: cover;
   background-repeat: no-repeat;
-  background-position-y:top;
+  background-position-y:center;
   min-height: 100vh;
-  background: white url('./components/img/bg.jpg') center center no-repeat;
+  background:url('./components/img/bg.jpg');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
+  background-attachment: fixed;
+  background-position: 0%;
 }
+
 
 
 

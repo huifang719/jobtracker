@@ -29,7 +29,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
 
   var icon = <AiOutlineHeart />
   const savedJob = (index, event) => {
-    event.preventDefault()
+    // event.preventDefault()
     icon = <AiFillHeart />
     const jobtoBeSaved = jobsList[index]
     if (loggedInEmail !== null) {

@@ -101,12 +101,15 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Home 
+            loggedInEmail = {loggedInEmail} />} 
+          />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<LogIn 
             loggedInEmail= {loggedInEmail}
             logIn = {logIn}
-            errorMessage = { errorMessage }/>} />
+            errorMessage = { errorMessage }/>} 
+          />
           <Route path='/jobboard' element={<JobBoard 
             loggedInEmail = { loggedInEmail }
             jobsList = { jobsList }
