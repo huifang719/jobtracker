@@ -95,11 +95,11 @@ function SignUp() {
         <h1 className='text-center'>Sign Up</h1>
         <Form.Group className="mb-3" controlId="formBasicUserName">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" name="name" value="" placeholder="Enter username" />
+          <Form.Control type="text" name="name" placeholder="Enter username" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" value="" name="email" placeholder="Enter email" />
+          <Form.Control type="email" name="email" placeholder="Enter email" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
