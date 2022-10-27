@@ -3,6 +3,7 @@ import PageHeader from './components/inc/PageHeader';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import Home from './components/home';
+import JobBoard from './components/JobBoard';
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,9 +12,11 @@ import { useNavigate } from 'react-router-dom';
 function App() {
   const [loggedInEmail, setloggedInEmail] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [jobsList, setJobsList] = useState([])
   const navigate = useNavigate()
   
   const logIn = event => {
+    event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
     fetch('/api/sessions', {
@@ -44,6 +47,7 @@ function App() {
   })
   }
   useEffect(checkSession, [loggedInEmail])
+
   const logOut = () => {
     fetch('/api/sessions', {
       method: 'DELETE'
@@ -67,13 +71,26 @@ function App() {
       fetch('/api/search')
       .then(res => res.json())
       .then(res => {
-        return fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${app_key}&results_per_page=10&title_only=${title}&where=${location}`)
+        const app_key = res
+        return fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${app_key}&title_only=${title}&where=${location}`)
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+      const jobsInfo = res.results
+        .map(job => {
+            const jobInfo = {}
+            jobInfo.title = job['title'] 
+            jobInfo.description = job['description']
+            jobInfo.location = job['location']['display_name']
+            jobInfo.url = job['redirect_url']
+            return jobInfo
+          })
+      setJobsList(jobsInfo)
+      navigate('/jobboard')
+    })
   }
 }
-  
+
   return (
     <div className="App">
       <header className="App-header">
@@ -90,6 +107,11 @@ function App() {
             loggedInEmail= {loggedInEmail}
             logIn = {logIn}
             errorMessage = { errorMessage }/>} />
+          <Route path='/jobboard' element={<JobBoard 
+            loggedInEmail = { loggedInEmail }
+            jobsList = { jobsList }
+            />}  
+          />
         </Routes>
       </main>
     </div>
