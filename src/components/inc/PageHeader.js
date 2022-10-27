@@ -1,48 +1,57 @@
-import React, { useState, useContext } from 'react';
-import { MyContext } from '../LogIn'
+import React, { useState } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { IoLogIn, IoEarthOutline, IoLogOut } from 'react-icons/io5'
-import { CgMenuRound } from 'react-icons/cg'
 import { IconContext } from 'react-icons'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Button, Form, Col } from 'react-bootstrap';
 import Quote from './Quote';
 import jobtracker from "../img/jobtracker.png"
 
-function PageHeader() {
+function PageHeader( { logOut, searchForJob } ) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const logOut = () => {
-    fetch('/api/sessions', {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(res => {
-    console.log('successfully logged out')
-  })
-  }
+
   return(
     <>
-      <Row className='row justify-content-center'>
-          <img style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
+      <Row className='d-flex me-6  container-fluid justify-content-space-between'>
+        <Col className='col-9 ms-lg-3 ms-sm-2 align-content-center'>
+          <Form onSubmit={ searchForJob } className='d-flex mt-4' style={{height: "3rem"}}>
+            <Form.Control
+              type="search"
+              placeholder="Job Title"
+              className="me-2"
+              name = "title"
+              aria-label="Search"
+            />
+             <Form.Control
+              type="search"
+              placeholder="Location"
+              className="me-2"
+              name = "location"
+              aria-label="Search"
+            />
+            <Button type="submit"  style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
+          </Form>
+        </Col>
+        <Col className='col-1 me-lg-3 me-sm-1 justify-content-end'>
+          <img className='col-1 ' style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
+        </Col>
       </Row>
    
-    <Offcanvas style={{width:"300px"}}show={show} onHide={handleClose}>
+    <Offcanvas placement={'end'} style={{width:"300px"}}show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title><img style={{height:"70px", width:"auto"}} src={jobtracker} alt="" /></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav defaultActiveKey="/" className="flex-column">
         <IconContext.Provider value={{color:"lightgrey"}}>
-            <Nav.Link as={Link} to="/"><FaHome />Home</Nav.Link>
-            <Nav.Link as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
-            <Nav.Link as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
-            <Nav.Link onClick={ logOut }><IoLogOut />Logout</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="/"><FaHome />Home</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
+            <Nav.Link style={{color:"rgb(51,73,96)"}} onClick={ logOut }><IoLogOut />Logout</Nav.Link>
           </IconContext.Provider>
         </Nav>
         <Quote />

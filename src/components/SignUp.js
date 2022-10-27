@@ -70,7 +70,7 @@ function SignUp() {
     event.preventDefault()
     const form = event.target
     const data = Object.fromEntries(new FormData(form))
-     if (consistancy) {
+    if (consistancy) {
       fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -84,12 +84,14 @@ function SignUp() {
           setErrorMessage(res.error)
         }
       })
+    } else {
+      setErrorMessage('Password does not match!')
     }
   }
 
   return (
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
-      <Form onSubmit={signUp}>
+      <Form onSubmit={signUp} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
         <h1 className='text-center'>Sign Up</h1>
         <Form.Group className="mb-3" controlId="formBasicUserName">
           <Form.Label>Username</Form.Label>
