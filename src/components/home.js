@@ -1,4 +1,4 @@
-import { Row, Col } from "react-bootstrap"
+import { Row, Col, Container } from "react-bootstrap"
 import Calender from "./inc/Calender"
 import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob"
@@ -25,20 +25,21 @@ function Home (loggedInEmail) {
   }, []);
   
   return (
-    <div style={{width: "80%", margin:"0, auto"}}>
-      <Row className="ms-2 justify-content-between" style={{gap:"1rem"}}>
+    <Container>
+      <Row className="ms-2 justify-content-between" style={{dispay:"flex", gap:"20px"}}>
         <Col className="col-sm-12 col-lg-5 col-md-5">
-          <VideoForTips className="mx-auto"/>
+          <VideoForTips />
         </Col>
         <Col className="col-sm-12 col-lg-5 col-md-5">
-          <Calender className="mx-auto"/>
+          <Calender />
         </Col>
       </Row>
+      
       <Row className="ms-2 gx-3">
         <SavedJob 
           savedJobList = {savedJobList} />
       </Row>
-    </div>
+      </Container>
   )
 }
 
