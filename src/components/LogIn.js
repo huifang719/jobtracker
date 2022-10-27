@@ -36,7 +36,10 @@ function LogIn({  logIn, errorMessage }) {
       <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
+        <div style={{display:"flex"}}>
         <Form.Control type="email" name="email" placeholder="Enter email" />
+        <Button className='col' variant="outline-*" style={{display:"none"}} onClick={ toggle }>{icon}</Button>
+        </div> 
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
@@ -51,7 +54,6 @@ function LogIn({  logIn, errorMessage }) {
       </Button>
     </Form>
   </Container>
-  
   )
 }
 
