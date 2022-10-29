@@ -7,30 +7,34 @@ import { IconContext } from "react-icons"
 import { useEffect, useState } from "react";
 
 function JobBoard({ loggedInEmail, jobsList }) {
-  const [jobSaved, setJobSaved] = useState(null)
 
+  const [icon, setIcon] = useState(null)
+  
   const init =() => { 
-    const jobCheck = jobsList.map(job => {
-    job["isSave"] = false 
-    return job['isSave']
-  })
-    return setJobSaved(jobCheck)
+    jobsList.map(job => {
+    job["icon"] = <AiOutlineHeart />
+    return setIcon(job["icon"])
+  })  
   }
  
   useEffect(init, [jobsList])
 
-  // const checkIfSaved = index => {
-  //   if (jobSaved[index]['isSave'] === true) {
-  //     icon = <AiFillHeart />
-  //   } else {
-  //     icon = <AiOutlineHeart />
-  //   }
-  // }
+  const toggle = index => {
+    const jobtoBeChecked = jobsList[index]
+    const  description= jobtoBeChecked.description
+    fetch(`/api/save/${loggedInEmail}/${description}`)
+      .then(res => res.json())
+      .then(res => {  
+        if (typeof res === 'string') {
+          saveJob(index)
+        } else {
+          deleteJob(index)
 
-  var icon = <AiOutlineHeart />
-  const savedJob = (index, event) => {
-    // event.preventDefault()
-    icon = <AiFillHeart />
+        }
+      }) 
+  }
+
+  const saveJob = (index, event) => {
     const jobtoBeSaved = jobsList[index]
     if (loggedInEmail !== null) {
       fetch('/api/save', {
@@ -39,15 +43,17 @@ function JobBoard({ loggedInEmail, jobsList }) {
         body: JSON.stringify([jobtoBeSaved, loggedInEmail])
       })    
     }
-    // const updatedSaveCheck = jobSaved.map((item, i) => {
-    //   if(i== index) {
-    //     return {index: true}
-    //   } else {
-    //     return item
-    //   }
-    // })
-    //   setJobSaved(updatedSaveCheck)
-    // }
+  }
+
+  const deleteJob = index => {
+    const description = jobsList[index].description
+    fetch(`/api/save/${description}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(res => {
+    console.log('job removed')
+  })
   }
 
   return (
@@ -62,7 +68,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
                 {job.description}
               </Card.Text>
               <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> savedJob(index) }>{icon}</Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{icon}</Button>
             </Card.Body>
           </Card>
         )}
