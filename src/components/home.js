@@ -6,8 +6,6 @@ import { useState, useEffect } from 'react';
 
 function Home (loggedInEmail) {
   const [savedJobList, setSavedJobList] =useState(null)
-
-
   const getSavedJobList = ()  => {
     const email = loggedInEmail['loggedInEmail']
     if (typeof email === "string") {
@@ -26,8 +24,8 @@ function Home (loggedInEmail) {
   
   return (
     <div>
-      <Row className="ms-2 justify-content-between" style={{dispay:"flex", gap:"20px"}}>
-        <Col className="col-sm-12 col-lg-5 col-md-5">
+      <Row className="ms-2 justify-content-center" style={{dispay:"flex", gap:"20px"}}>
+        <Col className="col-sm-12 col-lg-6 col-md-6">
           <VideoForTips className="mx-auto"/>
         </Col>
         <Col className="col-sm-12 col-lg-5 col-md-5">

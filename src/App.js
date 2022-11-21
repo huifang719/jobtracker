@@ -93,7 +93,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header me-0">
         <PageHeader 
           logOut = { logOut }
           searchForJob = { searchForJob }

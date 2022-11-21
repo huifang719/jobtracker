@@ -8,12 +8,13 @@ import { useEffect, useState } from "react";
 
 function JobBoard({ loggedInEmail, jobsList }) {
 
-  const [icon, setIcon] = useState(null)
+  const [icon, setIcon] = useState(init)
   
   const init =() => { 
-    jobsList.map(job => {
-    job["icon"] = <AiOutlineHeart />
-    return setIcon(job["icon"])
+    jobsList.map(index => {
+    var iconSet={}
+    iconSet[index] = <AiOutlineHeart />
+    return setIcon(iconSet)
   })  
   }
  
@@ -27,6 +28,15 @@ function JobBoard({ loggedInEmail, jobsList }) {
       .then(res => {  
         if (typeof res === 'string') {
           saveJob(index)
+          setIcon(icon.map(i => {
+            if (i===index) {
+              return {index: true}
+            } else {
+              <AiFillHeart />
+            }
+          }
+
+        ))
         } else {
           deleteJob(index)
 
