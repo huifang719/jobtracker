@@ -8,17 +8,17 @@ import { useEffect, useState } from "react";
 
 function JobBoard({ loggedInEmail, jobsList }) {
 
-  const [icon, setIcon] = useState(init)
+  // const [icon, setIcon] = useState(init)
   
-  const init =() => { 
-    jobsList.map(index => {
-    var iconSet={}
-    iconSet[index] = <AiOutlineHeart />
-    return setIcon(iconSet)
-  })  
-  }
+  // const init =() => { 
+  //   jobsList.map(index => {
+  //   var iconSet={}
+  //   iconSet[index] = <AiOutlineHeart />
+  //   return setIcon(iconSet)
+  // })  
+  // }
  
-  useEffect(init, [jobsList])
+  // useEffect(init, [jobsList])
 
   const toggle = index => {
     const jobtoBeChecked = jobsList[index]
@@ -28,15 +28,15 @@ function JobBoard({ loggedInEmail, jobsList }) {
       .then(res => {  
         if (typeof res === 'string') {
           saveJob(index)
-          setIcon(icon.map(i => {
-            if (i===index) {
-              return {index: true}
-            } else {
-              <AiFillHeart />
-            }
-          }
+        //   setIcon(icon.map(i => {
+        //     if (i===index) {
+        //       return {index: true}
+        //     } else {
+        //       <AiFillHeart />
+        //     }
+        //   }
 
-        ))
+        // ))
         } else {
           deleteJob(index)
 
@@ -78,7 +78,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
                 {job.description}
               </Card.Text>
               <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{icon}</Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }><AiOutlineHeart /></Button>
             </Card.Body>
           </Card>
         )}

@@ -64,6 +64,8 @@ function App() {
     const data = Object.fromEntries(new FormData(form))
     const title = data.title
     const location = data.location
+    console.log(title)
+    console.log(location)
     if (loggedInEmail === null) {
       navigate('/login')
       setErrorMessage('Please login first')
