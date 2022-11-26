@@ -1,50 +1,52 @@
 import { Container } from "react-bootstrap"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import SavedJob from "./SavedJob";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { IconContext } from "react-icons"
 import { useEffect, useState } from "react";
 
 function JobBoard({ loggedInEmail, jobsList }) {
-
-  // const [icon, setIcon] = useState(init)
-  
-  // const init =() => { 
-  //   jobsList.map(index => {
-  //   var iconSet={}
-  //   iconSet[index] = <AiOutlineHeart />
-  //   return setIcon(iconSet)
-  // })  
-  // }
+  const [jobIcon, setJobIcon] = useState([])
+  const init = () =>{
+      jobsList.map(job => {
+      var  description= job.description
+      fetch(`/api/save/${loggedInEmail}/${description}`)
+      .then(res => res.json())  
+      .then(res => {
+        if (typeof res === 'string') {
+          setJobIcon(jobIcon=>[...jobIcon, <AiOutlineHeart />]) 
+        } else {
+          setJobIcon(jobIcon=>[...jobIcon, <AiFillHeart />])
+        }
+      })
+    });
+} 
  
-  // useEffect(init, [jobsList])
+  useEffect(init, [jobsList])
 
   const toggle = index => {
-    const jobtoBeChecked = jobsList[index]
-    const  description= jobtoBeChecked.description
-    fetch(`/api/save/${loggedInEmail}/${description}`)
-      .then(res => res.json())
-      .then(res => {  
-        if (typeof res === 'string') {
-          saveJob(index)
-        //   setIcon(icon.map(i => {
-        //     if (i===index) {
-        //       return {index: true}
-        //     } else {
-        //       <AiFillHeart />
-        //     }
-        //   }
-
-        // ))
+    if (jobIcon[index] == <AiOutlineHeart />) {
+      saveJob(index)
+      setJobIcon(jobIcon.map((icon,i) => {
+        if (i===index){
+          return <AiFillHeart />
         } else {
-          deleteJob(index)
-
+          return icon
         }
-      }) 
+      }))
+    } else {
+      deleteJob(index)
+      setJobIcon(jobIcon.map((icon,i) => {
+        if (i===index){
+          return <AiOutlineHeart />
+        } else {
+          return icon
+        }
+      }))
+    }  
   }
 
-  const saveJob = (index, event) => {
+  const saveJob = index => {
     const jobtoBeSaved = jobsList[index]
     if (loggedInEmail !== null) {
       fetch('/api/save', {
@@ -78,7 +80,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
                 {job.description}
               </Card.Text>
               <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }><AiOutlineHeart /></Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{jobIcon[index]}</Button>
             </Card.Body>
           </Card>
         )}
