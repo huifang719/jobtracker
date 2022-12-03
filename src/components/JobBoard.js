@@ -53,7 +53,11 @@ function JobBoard({ loggedInEmail, jobsList }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([jobtoBeSaved, loggedInEmail])
-      })    
+      })
+      .then(res => res.json())
+      .then(res => {
+    console.log('job saved')    
+    })
     }
   }
 
