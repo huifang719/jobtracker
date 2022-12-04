@@ -4,72 +4,93 @@ import Card from 'react-bootstrap/Card';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { IconContext } from "react-icons"
 import { useEffect, useState } from "react";
+import supabase from "../supabaseClient";
 
 function JobBoard({ loggedInEmail, jobsList }) {
-  const [jobIcon, setJobIcon] = useState([])
+  const [jobCheck, setJobCheck] = useState([])
+
+  //when user doing job search, check if each job has been saved yet and show the correct item
   const init = () =>{
-      jobsList.map(job => {
+    jobsList.map(job => {
       var  description= job.description
-      fetch(`/api/save/${loggedInEmail}/${description}`)
-      .then(res => res.json())  
-      .then(res => {
-        if (typeof res === 'string') {
-          setJobIcon(jobIcon=>[...jobIcon, <AiOutlineHeart />]) 
+      const fetchJob = async () => {
+        const {data, error} = await supabase
+          .from('jobs')
+          .select()
+          .eq(description, description)
+
+        if (error) {
+          setJobCheck(jobCheck=>[...jobCheck,false ]) 
         } else {
-          setJobIcon(jobIcon=>[...jobIcon, <AiFillHeart />])
+          setJobCheck(jobCheck=>[...jobCheck,true ]) 
         }
-      })
+      }
+      fetchJob(job)
     });
-} 
+  } 
  
   useEffect(init, [jobsList])
 
   const toggle = index => {
-    if (jobIcon[index] == <AiOutlineHeart />) {
+    console.log(jobCheck)
+    if (jobCheck[index] === false) {
       saveJob(index)
-      setJobIcon(jobIcon.map((icon,i) => {
-        if (i===index){
-          return <AiFillHeart />
-        } else {
-          return icon
-        }
-      }))
     } else {
       deleteJob(index)
-      setJobIcon(jobIcon.map((icon,i) => {
+      setJobCheck(jobCheck.map((check,i) => {
         if (i===index){
-          return <AiOutlineHeart />
+          return false
         } else {
-          return icon
+          return check
         }
       }))
     }  
   }
 
-  const saveJob = index => {
-    const jobtoBeSaved = jobsList[index]
-    if (loggedInEmail !== null) {
-      fetch('/api/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([jobtoBeSaved, loggedInEmail])
-      })
-      .then(res => res.json())
-      .then(res => {
-    console.log('job saved')    
-    })
+  const saveJob = async(index) => {
+    console.log('miao')
+    const {title, description, location, url} = jobsList[index]
+    const email = loggedInEmail
+    const { data, error } = await supabase 
+      .from('jobs')
+      .insert([{
+        title,description,location,url, email
+      }])
+    if (data) {
+      console.log('job saved')
+      setJobCheck(jobCheck.map((check,i) => {
+        if (i===index){
+          return true
+        } else {
+          return check
+        }
+      }))
+    } 
+    if (error) {
+      console.log(error)
     }
+    // if (loggedInEmail !== null) {
+    //   fetch('/api/save', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify([jobtoBeSaved, loggedInEmail])
+    //   })
+    //   .then(res => res.json())
+    //   .then(res => {
+    // console.log('job saved')    
+    // })
+    // }
   }
 
   const deleteJob = index => {
-    const description = jobsList[index].description
-    fetch(`/api/save/${description}`, {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(res => {
-    console.log('job removed')
-  })
+  //   const description = jobsList[index].description
+  //   fetch(`/api/save/${description}`, {
+  //     method: 'DELETE'
+  //   })
+  //   .then(res => res.json())
+  //   .then(res => {
+  //   console.log('job removed')
+  // })
   }
 
   return (
@@ -84,7 +105,7 @@ function JobBoard({ loggedInEmail, jobsList }) {
                 {job.description}
               </Card.Text>
               <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{jobIcon[index]}</Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{jobCheck[index]?<AiFillHeart />:<AiOutlineHeart /> }</Button>
             </Card.Body>
           </Card>
         )}

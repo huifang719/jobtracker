@@ -13,7 +13,7 @@ import supabase from './supabaseClient';
 function App() {
   const [loggedInEmail, setloggedInEmail] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  // const [jobsList, setJobsList] = useState([])
+  const [jobsList, setJobsList] = useState([])
   const navigate = useNavigate()
   
   const handleLogIn = async(e) => {
@@ -25,7 +25,8 @@ function App() {
       email: userData.email,
       password: userData.password,
     })
-    setloggedInEmail(data.user.email)  
+    setloggedInEmail(data.user.email) 
+    navigate('/') 
   }
   const checkSession = () => {
     fetch('/api/sessions')
@@ -50,47 +51,41 @@ function App() {
   })
   }
 
-//   const searchForJob = event => {
-//     event.preventDefault()
-//     const form = event.target
-//     const data = Object.fromEntries(new FormData(form))
-//     const title = data.title
-//     const location = data.location
-//     console.log(title)
-//     console.log(location)
-//     if (loggedInEmail === null) {
-//       navigate('/login')
-//       setErrorMessage('Please login first')
-//     } else {
-//       fetch('/api/search')
-//       .then(res => res.json())
-//       .then(res => {
-//         const app_key = res
-//         return fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${app_key}&title_only=${title}&where=${location}`)
-//     })
-//     .then(res => res.json())
-//     .then(res => {
-//       const jobsInfo = res.results
-//         .map(job => {
-//             const jobInfo = {}
-//             jobInfo.title = job['title'] 
-//             jobInfo.description = job['description']
-//             jobInfo.location = job['location']['display_name']
-//             jobInfo.url = job['redirect_url']
-//             return jobInfo
-//           })
-//       setJobsList(jobsInfo)
-//       navigate('/jobboard')
-//     })
-//   }
-// }
+  const searchForJob = event => {
+    event.preventDefault()
+    const form = event.target
+    const data = Object.fromEntries(new FormData(form))
+    const title = data.title
+    const location = data.location
+    if (loggedInEmail === null) {
+      navigate('/login')
+      setErrorMessage('Please login first')
+    } else {
+      const app_key = process.env.REACT_APP_adzuna_api_key
+      return fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${app_key}&title_only=${title}&where=${location}`)
+      .then(res => res.json())
+      .then(res => {
+        const jobsInfo = res.results
+          .map(job => {
+              const jobInfo = {}
+              jobInfo.title = job['title'] 
+              jobInfo.description = job['description']
+              jobInfo.location = job['location']['display_name']
+              jobInfo.url = job['redirect_url']
+              return jobInfo
+            })
+        setJobsList(jobsInfo)
+        navigate('/jobboard')
+      })
+    }
+}
 
   return (
     <div className="App">
       <header className="App-header me-0">
         <PageHeader 
           logOut = { logOut }
-          // searchForJob = { searchForJob }
+          searchForJob = { searchForJob }
         />
       </header>
       <main>
@@ -106,7 +101,7 @@ function App() {
           />
           <Route path='/jobboard' element={<JobBoard 
             loggedInEmail = { loggedInEmail }
-            // jobsList = { jobsList }
+            jobsList = { jobsList }
             />}  
           />
         </Routes>
