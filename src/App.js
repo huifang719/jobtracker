@@ -25,30 +25,33 @@ function App() {
       email: userData.email,
       password: userData.password,
     })
-    setloggedInEmail(data.user.email) 
-    navigate('/') 
-  }
-  const checkSession = () => {
-    fetch('/api/sessions')
-    .then(res => res.json())
-    .then(email => {
-    if (typeof email === 'string') {
-      setloggedInEmail(email)
+    if (error) {
+      console.log(error)
+      alert("Something went wrong,please try again")
     } else {
-      console.log("no user logged in")
+      setloggedInEmail(data.user.email) 
+      navigate('/') 
     }
-  })
+    
   }
-  useEffect(checkSession, [loggedInEmail])
+ 
+  useEffect(() => {
+    async function fetchSession() {
+      const { data, error } = await supabase.auth.getSession()
+      if (error) {
+        console.log(error)
+      }
+    }
+  }, [loggedInEmail])
 
-  const logOut = () => {
-    fetch('/api/sessions', {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(res => {
-    setloggedInEmail(null)
-  })
+  const logOut = async() => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.log(error)
+    } {
+      console.log('successfully logged out')
+      setloggedInEmail(null)
+    }
   }
 
   const searchForJob = event => {
