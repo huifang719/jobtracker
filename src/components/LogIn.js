@@ -4,18 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
 import React from 'react';
+import supabase from '../supabaseClient';
 
-function LogIn({  logIn, errorMessage }) {
+function LogIn({  handleLogIn, errorMessage }) {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
- 
-
-  const handlePasswordChange = event => {
-    const newPassword = event.target.value
-    setPassword(newPassword)
-  }
-
+  
   const toggle = () => {
     var updatedShow
     var icon
@@ -30,9 +25,14 @@ function LogIn({  logIn, errorMessage }) {
     setIcon(icon)
   }
 
+  const handleGoogleAuth =async()=> {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    })
+  }
   return(
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
-    <Form  onSubmit={ logIn } style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
+    <Form  onSubmit={ handleLogIn } style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
       <h1 className='text-center'>Login</h1>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
@@ -44,7 +44,7 @@ function LogIn({  logIn, errorMessage }) {
       <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
-            <Form.Control onChange={handlePasswordChange} type={show? "text": "password"} name="password" placeholder="Password" />
+            <Form.Control onChange={e=>setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password" />
             <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
           </div>       
       </Form.Group>   
@@ -52,6 +52,7 @@ function LogIn({  logIn, errorMessage }) {
       <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} type="submit">
         Submit
       </Button>
+      <Button style={{backgroundColor:"rgb(110,223,94)", border:"none", marginLeft:"0.5rem"}} onClick={handleGoogleAuth}>Login with Google</Button>
     </Form>
   </Container>
   )

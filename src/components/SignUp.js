@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import ShowStrength from './inc/ShowStrength'
 import { useNavigate } from 'react-router-dom';
+import  supabase  from '../supabaseClient'
 
 function SignUp() {
   const [ password, setPassword ] = useState('')
@@ -18,14 +19,6 @@ function SignUp() {
 
   const navigate = useNavigate()
   
-  const handlePasswordChange = event => {
-    const newPassword = event.target.value
-    setPassword(newPassword)
-  }
-  const handleComfirmPasswordChange = event => {
-    const newPassword = event.target.value
-    setComfirmPassword(newPassword)
-  }
   const toggle = () => {
     var updatedShow
     var icon
@@ -66,32 +59,31 @@ function SignUp() {
 
   useEffect(CheckConsistancy, [comfirmPassword])
 
-  const signUp = event => {
-    event.preventDefault()
-    const form = event.target
-    const data = Object.fromEntries(new FormData(form))
+  const handleSignUp = async(e) => {
+    e.preventDefault()
+    const form = e.target
+    const userData = Object.fromEntries(new FormData(form))
+
     if (consistancy) {
-      fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }) 
-      .then(res => res.json())
-      .then(res => {
-        if (typeof res === 'string') {
-          navigate('/logIn')
-        } else {
-          setErrorMessage(res.error)
+      const { data, error } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            name: userData.name
+          }
         }
       })
+      console.log(data)
+      alert("Please comfirm your sign up in your inbox!")
+      navigate('/logIn')
     } else {
       setErrorMessage('Password does not match!')
     }
   }
-
   return (
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
-      <Form onSubmit={signUp} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
+      <Form onSubmit={handleSignUp} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
         <h1 className='text-center'>Sign Up</h1>
         <Form.Group className="mb-3" controlId="formBasicUserName">
           <Form.Label>Username</Form.Label>
@@ -104,7 +96,7 @@ function SignUp() {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
-            <Form.Control onChange={handlePasswordChange} type={show? "text": "password"} name="password" placeholder="Password" />
+            <Form.Control onChange={e => setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password" />
             <Button inline className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
           </div>       
           <ShowStrength
@@ -114,7 +106,7 @@ function SignUp() {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
-          <Form.Control onChange={handleComfirmPasswordChange} type={showComfirm? "text": "password"}  placeholder="comfirmPassword" />
+          <Form.Control onChange={e=> setComfirmPassword(e.target.value)} type={showComfirm? "text": "password"}  placeholder="comfirmPassword" />
           <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
           </div>
         </Form.Group>
