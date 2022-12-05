@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from './supabaseClient';
+import { AiFillDatabase } from 'react-icons/ai';
 
 
 function App() {
@@ -37,9 +38,10 @@ function App() {
  
   useEffect(() => {
     async function fetchSession() {
-      const { data, error } = await supabase.auth.getSession()
+      const {data, error} = await supabase.auth.getSession()
       if (error) {
         console.log(error)
+        // setloggedInEmail(data.user.email)
       }
     }
   }, [loggedInEmail])

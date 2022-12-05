@@ -3,24 +3,36 @@ import Calender from "./inc/Calender"
 import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob"
 import { useState, useEffect } from 'react';
+import supabase from "../supabaseClient";
 
 function Home (loggedInEmail) {
-  // const [savedJobList, setSavedJobList] =useState(null)
-  // const getSavedJobList = ()  => {
-  //   const email = loggedInEmail['loggedInEmail']
-  //   if (typeof email === "string") {
-  //     fetch(`/api/save/${email}`)
-  //     .then(res => res.json())
-  //     .then(jobs => { setSavedJobList(jobs)
-  //    })  
-  //   } else {
-  //     console.log('no user logged in')
-  //   }   
-  // } 
+  const [savedJobList, setSavedJobList] =useState(null)
+  const getSavedJobList = async()  => {
+    const email = loggedInEmail['loggedInEmail']
+    if (typeof email === "string") {
+      const {data, error} = await supabase
+        .from('jobs')
+        .select()
+        .eq("email",email)
+      if (error) {
+        console.log(error)
+      } 
+      if (data) {
+        console.log(data)
+        setSavedJobList(data)
+      }
+    //   fetch(`/api/save/${email}`)
+    //   .then(res => res.json())
+    //   .then(jobs => { setSavedJobList(jobs)
+    //  })  
+    } else {
+      console.log('no user logged in')
+    }   
+  } 
 
-  // useEffect(() => {
-  //   getSavedJobList();
-  // }, []);
+  useEffect(() => {
+    getSavedJobList();
+  }, []);
   
   return (
     <div>
@@ -33,8 +45,8 @@ function Home (loggedInEmail) {
         </Col>
       </Row>
       <Row className="ms-2 gx-3">
-        {/* <SavedJob 
-          savedJobList = {savedJobList} /> */}
+        <SavedJob 
+          savedJobList = {savedJobList} />
       </Row>
     </div>
   )

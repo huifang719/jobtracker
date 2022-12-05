@@ -69,21 +69,26 @@ function JobBoard({ loggedInEmail, jobsList }) {
     if (error) {
       console.log(error)
     }
-    // if (loggedInEmail !== null) {
-    //   fetch('/api/save', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify([jobtoBeSaved, loggedInEmail])
-    //   })
-    //   .then(res => res.json())
-    //   .then(res => {
-    // console.log('job saved')    
-    // })
-    // }
   }
 
-  const deleteJob = index => {
-  //   const description = jobsList[index].description
+  const deleteJob = async(index) => {
+    const description = jobsList[index].description
+    const { error } = await supabase
+      .from('jobs')
+      .delete()
+      .eq('description', description)
+    if (error) {
+      console.log(error)
+    } else {
+      console.log("job deleted")
+      setJobCheck(jobCheck.map((check,i) => {
+        if (i===index){
+          return false
+        } else {
+          return check
+        }
+      }))
+    }
   //   fetch(`/api/save/${description}`, {
   //     method: 'DELETE'
   //   })
