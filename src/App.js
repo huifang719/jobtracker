@@ -11,7 +11,7 @@ import supabase from './supabaseClient';
 import { AiFillDatabase } from 'react-icons/ai';
 
 
-function App() {
+const App = () => {
   const [loggedInEmail, setloggedInEmail] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [jobsList, setJobsList] = useState([])
@@ -35,14 +35,33 @@ function App() {
     }
     
   }
+
+  const handleGoogleAuth =async(e)=> {
+    e.preventDefault()
+    const { data } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    })
+    
+    if (data) {
+      setloggedInEmail(data.user.email) 
+    }
+  }
  
+  // const fetchSession = async() => {
+  //   const {data, error} = await supabase.auth.getSession()
+  //     if (data) {
+  //       console.log(data)
+  //       setloggedInEmail(data.user.email)
+  //     } 
+  //   }
+
+  
   useEffect(() => {
     async function fetchSession() {
       const {data, error} = await supabase.auth.getSession()
-      if (error) {
-        console.log(error)
-        // setloggedInEmail(data.user.email)
-      }
+      if (data) {
+        setloggedInEmail(data.user.email)
+      } 
     }
   }, [loggedInEmail])
 
@@ -102,6 +121,7 @@ function App() {
           <Route path='/login' element={<LogIn 
             loggedInEmail= {loggedInEmail}
             handleLogIn = {handleLogIn}
+            handleGoogleAuth = {handleGoogleAuth}
             />} 
           />
           <Route path='/jobboard' element={<JobBoard 

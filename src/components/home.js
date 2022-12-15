@@ -5,7 +5,7 @@ import SavedJob from "./SavedJob"
 import { useState, useEffect } from 'react';
 import supabase from "../supabaseClient";
 
-function Home (loggedInEmail) {
+const  Home =loggedInEmail => {
   const [savedJobList, setSavedJobList] =useState(null)
   const getSavedJobList = async()  => {
     const email = loggedInEmail['loggedInEmail']
@@ -21,10 +21,6 @@ function Home (loggedInEmail) {
         console.log(data)
         setSavedJobList(data)
       }
-    //   fetch(`/api/save/${email}`)
-    //   .then(res => res.json())
-    //   .then(jobs => { setSavedJobList(jobs)
-    //  })  
     } else {
       console.log('no user logged in')
     }   

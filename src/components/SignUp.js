@@ -7,7 +7,7 @@ import ShowStrength from './inc/ShowStrength'
 import { useNavigate } from 'react-router-dom';
 import  supabase  from '../supabaseClient'
 
-function SignUp() {
+const SignUp = () => {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)

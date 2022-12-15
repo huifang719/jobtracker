@@ -4,9 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
 import React from 'react';
-import supabase from '../supabaseClient';
 
-function LogIn({  handleLogIn, errorMessage }) {
+const LogIn = ({  handleLogIn, errorMessage, handleGoogleAuth }) => {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)
@@ -25,11 +24,6 @@ function LogIn({  handleLogIn, errorMessage }) {
     setIcon(icon)
   }
 
-  const handleGoogleAuth =async()=> {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google'
-    })
-  }
   return(
     <Container className='mx-auto mt-1' style={{width:"70%"}}>
     <Form  onSubmit={ handleLogIn } style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>

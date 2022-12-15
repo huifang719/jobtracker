@@ -6,10 +6,10 @@ import { IconContext } from "react-icons"
 import { useEffect, useState } from "react";
 import supabase from "../supabaseClient";
 
-function JobBoard({ loggedInEmail, jobsList }) {
+const JobBoard=({ loggedInEmail, jobsList }) => {
   const [jobCheck, setJobCheck] = useState([])
 
-  //when user doing job search, check if each job has been saved yet and show the correct item
+  //when user doing job search, check if each job has been saved yet and show the correct icon
   const init = () =>{
     jobsList.map(job => {
       var  description= job.description
@@ -89,13 +89,6 @@ function JobBoard({ loggedInEmail, jobsList }) {
         }
       }))
     }
-  //   fetch(`/api/save/${description}`, {
-  //     method: 'DELETE'
-  //   })
-  //   .then(res => res.json())
-  //   .then(res => {
-  //   console.log('job removed')
-  // })
   }
 
   return (

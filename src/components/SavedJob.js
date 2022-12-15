@@ -1,6 +1,6 @@
 import { Container, Button, Card } from 'react-bootstrap';
 
-function SavedJob(savedJobList) {
+const SavedJob = savedJobList => {
   return (
     <Container className="d-block g-1">
       {savedJobList.savedJobList?.map((job, index) =>       
