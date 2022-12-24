@@ -38,8 +38,8 @@ const LogIn = ({  handleLogIn, errorMessage, handleGoogleAuth }) => {
       <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
-            <Form.Control onChange={e=>setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password" />
-            <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
+            <Form.Control onChange={e=>setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password"></Form.Control>
+            <Button className='col' variant="outline-*" style={{border:"none", color:"rgb(110,223,94)"}} onClick={ toggle }>{icon}</Button>
           </div>       
       </Form.Group>   
       <div style={errorMessage===null? {display:"none"}: {color:"rgb(110,223,94)"}}>{errorMessage}</div> 

@@ -1,7 +1,6 @@
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react'
-import { Container } from 'react-bootstrap';
+import { Container, Form, FormControl, FormGroup, FormLabel, FormControlProps } from 'react-bootstrap';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import ShowStrength from './inc/ShowStrength'
 import { useNavigate } from 'react-router-dom';
@@ -96,9 +95,9 @@ const SignUp = () => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
-            <Form.Control onChange={e => setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password" />
-            <Button inline className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle }>{icon}</Button>
-          </div>       
+            <Form.Control onChange={e => setPassword(e.target.value)} type={show? "text": "password"} name="password" placeholder="Password" />  
+            <Button inline className='col' variant="outline-*" style={{border:"none", color:"rgb(110,223,94)"}} onClick={ toggle }>{icon}</Button> 
+          </div>    
           <ShowStrength
             password = { password }
           />
@@ -107,7 +106,7 @@ const SignUp = () => {
           <Form.Label>Password</Form.Label>
           <div style={{display:"flex"}}>
           <Form.Control onChange={e=> setComfirmPassword(e.target.value)} type={showComfirm? "text": "password"}  placeholder="comfirmPassword" />
-          <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ toggle2 }>{iconComfirm}</Button>
+          <Button className='col' variant="outline-*" style={{border:"none", color:"rgb(110,223,94)" }} onClick={ toggle2 }>{iconComfirm}</Button>
           </div>
         </Form.Group>
         <div style={errorMessage===null? {display:"none"}: {color:"rgb(110,223,94)"}}>{errorMessage}</div> 
