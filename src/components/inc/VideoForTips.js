@@ -3,7 +3,7 @@ import { Row } from 'react-bootstrap'
 import ReactPlayer from 'react-player/youtube'
 import "./video.css"
 
-function VideoForTips() {
+const VideoForTips = () => {
   return(
       <Row>
         <ReactPlayer style={{display:"flex", margin:"0, auto"}} 

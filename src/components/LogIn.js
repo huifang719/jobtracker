@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react'
 import React from 'react';
 
-function LogIn({  logIn, errorMessage }) {
+const LogIn = ({  logIn, errorMessage }) => {
   const [ password, setPassword ] = useState('')
   const [show , setShow] = useState(false)
   const [icon, setIcon] = useState(AiFillEye)

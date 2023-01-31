@@ -4,7 +4,7 @@ import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob"
 import { useState, useEffect } from 'react';
 
-function Home (loggedInEmail) {
+const Home = (loggedInEmail) => {
   const [savedJobList, setSavedJobList] =useState(null)
   const getSavedJobList = ()  => {
     const email = loggedInEmail['loggedInEmail']

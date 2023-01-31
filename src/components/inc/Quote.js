@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Card from 'react-bootstrap/Card';
-function Quote() {
+
+const Quote = () => {
   const [quote, setQuote ] = useState({})
   const getQuote = () => {
     fetch('https://type.fit/api/quotes')

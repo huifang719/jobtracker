@@ -9,7 +9,7 @@ import { Row, Button, Form, Col, Container } from 'react-bootstrap';
 import Quote from './Quote';
 import jobtracker from "../img/jobtracker.png"
 
-function PageHeader( { logOut, searchForJob } ) {
+const PageHeader = ( { logOut, searchForJob } ) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
