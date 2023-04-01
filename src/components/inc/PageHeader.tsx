@@ -5,11 +5,19 @@ import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { IoLogIn, IoEarthOutline, IoLogOut } from 'react-icons/io5'
 import { IconContext } from 'react-icons'
-import { Row, Button, Form, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import Quote from './Quote';
-import jobtracker from "../img/jobtracker.png"
+import jobtracker from "../../assets/jobtracker.png"
+import SearchJobs from './SearchJobs';
+import { FieldValues } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
-const PageHeader = ( { logOut, searchForJob } ) => {
+interface PropState {
+  logOut: () => void
+  handleSearch: (data: FieldValues) => void
+}
+const PageHeader = ( { logOut, handleSearch }: PropState ) => {
+  const loggedInEmail = useSelector((state: any) => state.user.value.email)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,23 +28,7 @@ const PageHeader = ( { logOut, searchForJob } ) => {
         <Container fluid>
           <Row className='d-flex justify-content-space-around'>
             <Col className='col-10 ms-lg-3 ms-sm-2 align-content-center'>
-              <Form onSubmit={ searchForJob } className='d-flex mt-4' style={{height: "3rem"}}>
-                <Form.Control
-                  type="search"
-                  placeholder="Job Title"
-                  className="me-2"
-                  name = "title"
-                  aria-label="Search"
-                />
-                  <Form.Control
-                  type="search"
-                  placeholder="Location"
-                  className="me-2"
-                  name = "location"
-                  aria-label="Search"
-                />
-                <Button type="submit"  style={{backgroundColor:"rgb(110,223,94)", border:"none"}}>Search</Button>
-              </Form>
+              <SearchJobs handleSearch={handleSearch} />
             </Col>
             <Col className='col-1 me-0 justify-self-end'>
               <img style={{height:"100px", width:"auto"}} onClick={handleShow} src={jobtracker} alt="" />
@@ -52,9 +44,9 @@ const PageHeader = ( { logOut, searchForJob } ) => {
           <Nav defaultActiveKey="/" className="flex-column">
           <IconContext.Provider value={{color:"lightgrey"}}>
               <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="/"><FaHome />Home</Nav.Link>
-              <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>
-              <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>
-              <Nav.Link style={{color:"rgb(51,73,96)"}} onClick={ logOut }><IoLogOut />Logout</Nav.Link>
+              {!loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>}
+              {!loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>}
+              {loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} onClick={ logOut }><IoLogOut />Logout</Nav.Link>}
             </IconContext.Provider>
           </Nav>
           <Quote />
@@ -65,4 +57,4 @@ const PageHeader = ( { logOut, searchForJob } ) => {
   )
 }
 
-export default PageHeader
+export default PageHeader;

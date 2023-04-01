@@ -1,27 +1,38 @@
 {
-  "name": "jobtracker",
+  "name": "jobtracker2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@google-cloud/talent": "^5.0.0",
+    "@hookform/resolvers": "^2.9.11",
+    "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.2.2",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.12",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-redux": "^7.1.25",
+    "bootstrap": "^5.2.3",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.5.0",
+    "react-bootstrap": "^2.7.1",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0",
-    "react-player": "^2.11.0",
-    "react-router-dom": "^6.4.2",
+    "react-hook-form": "^7.43.7",
+    "react-icons": "^4.7.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "zod": "^3.21.4",
+    "react-player": "^2.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+
   },
   "eslintConfig": {
     "extends": [

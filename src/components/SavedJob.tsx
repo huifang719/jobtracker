@@ -1,9 +1,18 @@
 import { Container, Button, Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-const SavedJob = (savedJobList) => {
+interface jobState {
+  title: string, 
+  location: string,
+  description: string,
+  url: string,
+}
+
+const SavedJob = () => {
+  const savedJobList = useSelector((state: any) => state.savedJob.value)
   return (
     <Container className="d-block g-1">
-      {savedJobList.savedJobList?.map((job, index) =>       
+      {savedJobList.length>0 && savedJobList.map((job:jobState, index: number) =>       
         <Card key={index}>
           <Card.Header as="h5">{job.location}</Card.Header>
           <Card.Body>

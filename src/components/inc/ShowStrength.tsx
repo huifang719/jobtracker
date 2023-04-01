@@ -1,7 +1,9 @@
-import React from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-const ShowStrength = ({ password }) => { 
+interface PropState {
+  password: string
+}
+const ShowStrength = ({ password }:PropState) => { 
   let passwordStrength = {
       score: 0,
       hasLowerCase: false,

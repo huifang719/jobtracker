@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   background-position-y:center;
   min-height: 100vh;
-  background:url('./components/img/bg.jpg');
+  background:url('./assets/bg.jpg');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -23,6 +23,3 @@
     height: 180px;
   }
 }
-
-
-
