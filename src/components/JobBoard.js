@@ -23,6 +23,7 @@ const JobBoard = ({ loggedInEmail, jobsList }) => {
     });
   } 
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(init, [jobsList])
 
   const toggle = index => {

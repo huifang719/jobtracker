@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap"
-import Calender from "./inc/Calender"
+// import Calender from "./inc/Calender"
 import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob"
 import { useState, useEffect } from 'react';
@@ -29,7 +29,7 @@ const Home = (loggedInEmail) => {
           <VideoForTips className="mx-auto"/>
         </Col>
         <Col className="col-sm-12 col-lg-5 col-md-5">
-          <Calender className="mx-auto"/>
+          {/* <Calender className="mx-auto"/> */}
         </Col>
       </Row>
       <Row className="ms-2 gx-3">
