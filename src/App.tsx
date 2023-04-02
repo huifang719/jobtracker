@@ -88,7 +88,6 @@ const App:React.FC = () => {
     const api_key  = await fetch('/api/search')
       .then(res => res.json())
 
-    // const api_key = "42647a5e3b8a1c4d5f31124182e3879b"
     const { title, location} = data
     const response= await fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${api_key}&title_only=${title}&where=${location}`)
       .then(res => res.json())
