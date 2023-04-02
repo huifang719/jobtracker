@@ -89,9 +89,9 @@ const JobBoard = () => {
     <>
       <Container className="d-block g-1">
         <IconContext.Provider value={{color:"rgb(110,223,94)", size:"2rem"}}>
-          {jobs.map((job:jobState, index: number) =>       
+          {jobs.length>0&&jobs.map((job:jobState, index: number) =>       
             <Card key={index}>
-              {/* <Card.Header as="h5">{job.location}</Card.Header> */}
+              <Card.Header>{job.location}</Card.Header>
               <Card.Body>
                 <Card.Title>{job.title}</Card.Title>
                 <Card.Text>
@@ -101,7 +101,7 @@ const JobBoard = () => {
                 <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{saveStatus[index]=== true? <AiFillHeart /> : <AiOutlineHeart />}</Button>
               </Card.Body>
             </Card>
-          ) }
+          )}
         </IconContext.Provider>  
       </Container>     
     </>

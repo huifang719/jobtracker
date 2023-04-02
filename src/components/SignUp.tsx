@@ -27,26 +27,17 @@ const schema = z.object ({
 
 type FormData = z.infer<typeof schema>
 
-const SignUp = () => {
+interface PropState {
+  signUp: (data:FieldValues) => void,
+  errorMessage: string |null
+}
+
+const SignUp = ({ signUp, errorMessage }:PropState) => {
   const [password, setPassword] =useState<string>('')
   const [show , setShow] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
 
-  const navigate = useNavigate()
   const {register, handleSubmit, formState:{ errors, isSubmitting}}=useForm<FormData>({resolver:zodResolver(schema)})
-
-  const signUp = async(data: FieldValues)=> {
-    console.log(data)
-    
-    const response= await fetch('/api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-    })
-    if (response.status !==200) return console.log(response.body)
-    
-  }
 
   return (
     <Container className='mx-auto mt-1' style={{width:"70%", maxWidth:"500px", minWidth:"300px"}}>

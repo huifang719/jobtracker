@@ -4,7 +4,6 @@ import VideoForTips from "./inc/VideoForTips"
 import SavedJob from "./SavedJob";
 
 const Home = () => {
-
   return (
     <div>
       <Row className="ms-2 justify-content-center" style={{ gap:"20px"}}>

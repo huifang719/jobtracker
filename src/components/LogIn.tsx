@@ -1,5 +1,6 @@
 import { Container } from 'react-bootstrap';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { IconContext } from 'react-icons';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react'
@@ -25,32 +26,34 @@ const LogIn = ({  logIn, errorMessage }: PropState) => {
 
   return(
     <Container className='mx-auto mt-1' style={{width:"70%", maxWidth:"500px", minWidth:"300px"}}>
-    <Form  onSubmit={handleSubmit(logIn)} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
-      <h1 className='text-center'>Login</h1>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email</Form.Label>
-        <div style={{display:"flex"}}>
-        <Form.Control placeholder="Enter email" {...register('email')} />
-        </div> 
-        <Form.Text className="text-danger">
-            {errors.email?.message}
-        </Form.Text> 
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <div style={{display:"flex"}}>
-          <Form.Control type={show? "text": "password"} {...register('password')} placeholder="Password" />
-            <Button className='col' variant="outline-*" style={{border:"none"}} onClick={() => setShow(!show) }>{show?<AiFillEye />:<AiFillEyeInvisible /> }</Button>
-          </div>    
-          <Form.Text style={{color:"rgb(110,223,94)"}} >
-            {errors.password?.message}
-          </Form.Text> 
-          {errorMessage&&<Form.Text style={{color:"rgb(110,223,94)"}}>{errorMessage}</Form.Text>}   
-      </Form.Group>  
-      <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} disabled={isSubmitting} type="submit">
-        Submit
-      </Button>
-    </Form>
+      <IconContext.Provider value={{  color: 'rgb(110,223,94)' }}>
+        <Form  onSubmit={handleSubmit(logIn)} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
+          <h1 className='text-center'>Login</h1>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
+            <div style={{display:"flex"}}>
+            <Form.Control placeholder="Enter email" {...register('email')} />
+            </div> 
+            <Form.Text className="text-danger">
+                {errors.email?.message}
+            </Form.Text> 
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <div style={{display:"flex"}}>
+              <Form.Control type={show? "text": "password"} {...register('password')} placeholder="Password" />
+                <Button className='col' variant="outline-*" style={{border:"none"}} onClick={() => setShow(!show) }>{show?<AiFillEyeInvisible />:<AiFillEye /> }</Button>
+              </div>    
+              <Form.Text style={{color:"rgb(110,223,94)"}} >
+                {errors.password?.message}
+              </Form.Text> 
+              {errorMessage&&<Form.Text style={{color:"rgb(110,223,94)"}}>{errorMessage}</Form.Text>}   
+          </Form.Group>  
+          <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} disabled={isSubmitting} type="submit">
+            Submit
+          </Button>
+        </Form>
+    </IconContext.Provider>
   </Container>
   )
 }

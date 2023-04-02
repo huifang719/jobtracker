@@ -13,7 +13,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { removeUser, setUser } from './features/userSlice';
 import { setSavedJob } from './features/savedJobList';
 
-const App:React.FC = () => {
+const App:React.FC = ():JSX.Element => {
   const loggedInEmail = useSelector((state: any) => state.user.value.email)
   const [errorMessage, setErrorMessage] = useState<string|null>(null)
   const dispatch = useDispatch()
@@ -68,6 +68,16 @@ const App:React.FC = () => {
   })
   }
 
+  const signUp = async(data: FieldValues)=> {
+    const response= await fetch('/api/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+    })
+    if (response.status !==200) return console.log(response.body)
+    return navigate('/login')
+  }
+
   const logOut = async() => {
     await fetch('/api/sessions', {
       method: 'DELETE'
@@ -92,11 +102,10 @@ const App:React.FC = () => {
     const response= await fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${api_key}&title_only=${title}&where=${location}`)
       .then(res => res.json())
     await console.log(response)
-    const searchResult = await response.results.map((job: any) => {
+    const searchResult = await response.results.forEach((job: any) => {
       const { title, location, description, redirect_url
       } = job 
-      dispatch(listingJob({title: title, location: location, description: description, url: redirect_url}))
-      return {title, location, description, redirect_url}
+      dispatch(listingJob({title: title, location: location['display_name'], description: description, url: redirect_url}))
     }) 
     await navigate('/jobboard')
   }
@@ -113,7 +122,10 @@ const App:React.FC = () => {
         <Routes>
           <Route path='/' element={<Home />} 
           />
-          <Route path='/signup' element={<SignUp />} />
+          <Route path='/signup' element={<SignUp
+            signUp={signUp} 
+            errorMessage = { errorMessage }/>} 
+          />
           <Route path='/login' element={<LogIn 
             logIn = {logIn}
             errorMessage = { errorMessage }/>} 

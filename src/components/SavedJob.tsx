@@ -8,13 +8,14 @@ interface jobState {
   url: string,
 }
 
-const SavedJob = () => {
+const SavedJob:React.FC = () => {
   const savedJobList = useSelector((state: any) => state.savedJob.value)
+  
   return (
     <Container className="d-block g-1">
       {savedJobList.length>0 && savedJobList.map((job:jobState, index: number) =>       
         <Card key={index}>
-          <Card.Header as="h5">{job.location}</Card.Header>
+          <Card.Header>{job.location}</Card.Header>
           <Card.Body>
             <Card.Title>{job.title}</Card.Title>
             <Card.Text>
