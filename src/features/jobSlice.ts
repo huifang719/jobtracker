@@ -16,11 +16,14 @@ const jobSlice = createSlice({
   name: "Job",
   initialState,
   reducers: {
-      listingJob: (state: jobState, action: PayloadAction<Job[]>) => {
-        state.value = action.payload;
+      listingJob: (state: jobState, action: PayloadAction<Job>) => {
+        state.value.push(action.payload);
       },
+      reset: (state: jobState) => {
+        state = initialState;
+    }
   }
 })
 
-export const { listingJob } = jobSlice.actions;
+export const { listingJob, reset } = jobSlice.actions;
 export default jobSlice;

@@ -4,7 +4,7 @@ import './App.css'
 import { FieldValues } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listingJob } from './features/jobSlice';
+import { listingJob, reset } from './features/jobSlice';
 import JobBoard from './components/JobBoard';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
@@ -79,27 +79,26 @@ const App:React.FC = () => {
   })
   }
   const handleSearch = async(data: FieldValues) => {
-    const {api_key, error}  = await fetch('/api/search')
-      .then(res => res.json())
-    if (error) {
-      console.log(error)
-    }
-    console.log(api_key)
     if (loggedInEmail === null) {
       navigate('/login')
       setErrorMessage('Please login first')
       return
     }
-  
-    const { title, location} = data
+    dispatch(reset())
+    const api_key  = await fetch('/api/search')
+      .then(res => res.json())
 
+    // const api_key = "42647a5e3b8a1c4d5f31124182e3879b"
+    const { title, location} = data
     const response= await fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${api_key}&title_only=${title}&where=${location}`)
       .then(res => res.json())
+    await console.log(response)
     const searchResult = await response.results.map((job: any) => {
-      const { title, location, description } = job 
-      return {title, location, description}
+      const { title, location, description, redirect_url
+      } = job 
+      dispatch(listingJob({title: title, location: location, description: description, url: redirect_url}))
+      return {title, location, description, redirect_url}
     }) 
-    await dispatch(listingJob(searchResult))
     await navigate('/jobboard')
   }
   
@@ -120,7 +119,7 @@ const App:React.FC = () => {
             logIn = {logIn}
             errorMessage = { errorMessage }/>} 
           />
-          <Route path='/jobboard' element={<JobBoard />}  
+          <Route path='/jobboard' element={<JobBoard  />}  
           />
         </Routes>
       </main>

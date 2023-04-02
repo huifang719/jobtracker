@@ -8,14 +8,15 @@ interface jobState {
   title: string, 
   location: string,
   description: string,
-  url: string,
+  url: string
 }
+
 const JobBoard = () => {
 
   const jobs = useSelector((state:any) => state.job.value)
   const [saveStatus, setSaveStatus] = useState<boolean[]>([])
   const loggedInEmail = useSelector((state: any) => state.user.value.email)
-
+  console.log(jobs)
   // I would like the site to fetch the status whether the job has been saved or not from the backend, then saved into the state, so that jobs wont be saved twice or more times
   const init = () =>{
     jobs.length>0&&jobs.forEach((job:jobState) => {
@@ -23,10 +24,8 @@ const JobBoard = () => {
     fetch(`/api/save/${loggedInEmail}/${description}`) 
       .then(res => {
         if (res.status === 404) {
-          console.log(res)
           setSaveStatus(saveStatus=>[...saveStatus, false]) 
         } else {
-          console.log(res.json())
           setSaveStatus(saveStatus=>[...saveStatus, true])
         }
       })
@@ -88,12 +87,11 @@ const JobBoard = () => {
 
   return (
     <>
-      <h3> Job Board</h3>
-      <IconContext.Provider value={{color:"rgb(110,223,94)", size:"2rem"}}>
-        <Container className="d-block g-1">
-          {jobs.length >0 &&jobs.map((job:any, index: number) =>       
+      <Container className="d-block g-1">
+        <IconContext.Provider value={{color:"rgb(110,223,94)", size:"2rem"}}>
+          {jobs.map((job:jobState, index: number) =>       
             <Card key={index}>
-              <Card.Header as="h5">{job.location}</Card.Header>
+              {/* <Card.Header as="h5">{job.location}</Card.Header> */}
               <Card.Body>
                 <Card.Title>{job.title}</Card.Title>
                 <Card.Text>
@@ -103,9 +101,9 @@ const JobBoard = () => {
                 <Button className='col' variant="outline-*" style={{border:"none"}} onClick={ ()=> toggle(index) }>{saveStatus[index]=== true? <AiFillHeart /> : <AiOutlineHeart />}</Button>
               </Card.Body>
             </Card>
-          )}
-        </Container>  
-      </IconContext.Provider>  
+          ) }
+        </IconContext.Provider>  
+      </Container>     
     </>
   )
 }
