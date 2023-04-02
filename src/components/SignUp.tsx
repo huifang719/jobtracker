@@ -21,6 +21,7 @@ const schema = z.object ({
       code: "custom",
       message: "The passwords did not match"
     });
+    throw new Error("The passwords did not match");
   }
 });
 
@@ -36,22 +37,21 @@ const SignUp = () => {
   const {register, handleSubmit, formState:{ errors, isSubmitting}}=useForm<FormData>({resolver:zodResolver(schema)})
 
   const signUp = async(data: FieldValues)=> {
-    try {
-      const newUser = await fetch('/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }) 
-    } 
-    catch(error:any) {
-      setErrorMessage(error.message)
-    }
+    console.log(data)
+    
+    const response= await fetch('/api/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+    })
+    if (response.status !==200) return console.log(response.body)
+    
   }
 
   return (
     <Container className='mx-auto mt-1' style={{width:"70%", maxWidth:"500px", minWidth:"300px"}}>
       <IconContext.Provider value={{  color: 'rgb(110,223,94)' }}>
-        <Form onSubmit={handleSubmit(signUp)} style={{padding:"1rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
+        <Form onSubmit={handleSubmit(signUp)} style={{padding:"2rem", backgroundColor:"rgb(51,73,96)", borderRadius:"1rem"}}>
           <h1 className='text-center'>Sign Up</h1>
           <Form.Group className="mb-3" controlId="formBasicUserName">
             <Form.Label>Username</Form.Label>
@@ -62,7 +62,7 @@ const SignUp = () => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder="Enter email" {...register('email')} />
             <Form.Text style={{color:"rgb(110,223,94)"}} >
                 {errors.email?.message}
             </Form.Text> 
@@ -84,7 +84,7 @@ const SignUp = () => {
             <Form.Label>Password</Form.Label>
             <div style={{display:"flex"}}>
               <Form.Control type={showConfirm? "text": "password"} {...register('confirmPassword')} placeholder="Password" />
-              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={() => setShowConfirm(!showConfirm) }>{!showConfirm?<AiFillEyeInvisible />:<AiFillEye /> }</Button>
+              <Button className='col' variant="outline-*" style={{border:"none"}} onClick={() => setShowConfirm(!showConfirm) }>{showConfirm?<AiFillEyeInvisible />:<AiFillEye /> }</Button>
             </div>
             <Form.Text style={{color:"rgb(110,223,94)"}} >
               {errors.confirmPassword?.message}
@@ -93,9 +93,9 @@ const SignUp = () => {
               {errorMessage&&<Form.Text style={{color:"rgb(110,223,94)"}} >
                 {errorMessage}
               </Form.Text>};
-              {/* <Form.Text style={{color:"rgb(110,223,94)"}} >
-              {errors.custom?.message}
-              </Form.Text> */}
+              <Form.Text style={{color:"rgb(110,223,94)"}} >
+              {errors.root?.message}
+              </Form.Text>
           <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} disabled={isSubmitting} type="submit">
             Submit
           </Button>

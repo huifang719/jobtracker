@@ -42,7 +42,7 @@ const PageHeader = ( { logOut, handleSearch }: PropState ) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav defaultActiveKey="/" className="flex-column">
-          <IconContext.Provider value={{color:"lightgrey"}}>
+          <IconContext.Provider value={{  color: 'rgb(110,223,94)' }}>
               <Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="/"><FaHome />Home</Nav.Link>
               {!loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../LogIn"><IoLogIn />Login</Nav.Link>}
               {!loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>}

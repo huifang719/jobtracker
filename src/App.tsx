@@ -79,18 +79,18 @@ const App:React.FC = () => {
   })
   }
   const handleSearch = async(data: FieldValues) => {
-    // const {api_key, error}  = await fetch('/api/search')
-    //   .then(res => res.json())
-    // if (error) {
-    //   console.log(error)
-    // }
-    // console.log(api_key)
+    const {api_key, error}  = await fetch('/api/search')
+      .then(res => res.json())
+    if (error) {
+      console.log(error)
+    }
+    console.log(api_key)
     if (loggedInEmail === null) {
       navigate('/login')
       setErrorMessage('Please login first')
       return
     }
-    const api_key = "42647a5e3b8a1c4d5f31124182e3879b"
+  
     const { title, location} = data
 
     const response= await fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${api_key}&title_only=${title}&where=${location}`)
