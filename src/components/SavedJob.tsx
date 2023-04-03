@@ -6,24 +6,28 @@ interface jobState {
   location: string,
   description: string,
   url: string,
+  company: string
 }
 
 const SavedJob:React.FC = () => {
   const savedJobList = useSelector((state: any) => state.savedJob.value)
   
   return (
-    <Container className="d-block g-1">
-      {savedJobList.length>0 && savedJobList.map((job:jobState, index: number) =>       
-        <Card key={index}>
-          <Card.Header>{job.location}</Card.Header>
-          <Card.Body>
-            <Card.Title>{job.title}</Card.Title>
-            <Card.Text>
-              {job.description}
-            </Card.Text>
-            <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
-          </Card.Body>
-        </Card>
+    <Container className="d-block g-2">
+      {savedJobList.length>0 && savedJobList.map((job:jobState, index: number) =>      
+          <Card key={index} className='mb-2'>
+            <Card.Header  className='d-flex justify-content-between'>
+            <Card.Text>Location: {job.location}</Card.Text>
+                  {job.company&&<Card.Text>Company: {job.company}</Card.Text>}
+            </Card.Header>
+            <Card.Body>
+              <Card.Title>{job.title}</Card.Title>
+              <Card.Text>
+                {job.description}
+              </Card.Text>
+              <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} href={job.url}>Read more</Button>
+            </Card.Body>
+          </Card> 
       )}
     </Container> 
   )

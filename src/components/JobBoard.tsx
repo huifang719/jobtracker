@@ -3,32 +3,32 @@ import { useSelector } from 'react-redux';
 import { Container, Button, Card } from 'react-bootstrap';
 import { IconContext } from "react-icons"
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
+import { useNavigate } from 'react-router-dom';
 
 interface jobState {
   title: string, 
   location: string,
   description: string,
-  url: string
+  url: string,
+  company: string
 }
 
-const JobBoard = () => {
-
+const JobBoard: React.FC  = () => {
   const jobs = useSelector((state:any) => state.job.value)
+  console.log(jobs)
   const [saveStatus, setSaveStatus] = useState<boolean[]>([])
   const loggedInEmail = useSelector((state: any) => state.user.value.email)
-  console.log(jobs)
+
   // I would like the site to fetch the status whether the job has been saved or not from the backend, then saved into the state, so that jobs wont be saved twice or more times
   const init = () =>{
     jobs.length>0&&jobs.forEach((job:jobState) => {
     var  description= job.description
-    fetch(`/api/save/${loggedInEmail}/${description}`) 
+    const response = fetch(`/api/save/${loggedInEmail}/${description}`) 
+      .then(res => res.json())
       .then(res => {
-        if (res.status === 404) {
-          setSaveStatus(saveStatus=>[...saveStatus, false]) 
-        } else {
-          setSaveStatus(saveStatus=>[...saveStatus, true])
-        }
-      })
+        if (res.error) return setSaveStatus(saveStatus=>[...saveStatus, false])       
+        return setSaveStatus(saveStatus=>[...saveStatus, true])
+        })
     });
   } 
   
@@ -37,61 +37,49 @@ const JobBoard = () => {
   useEffect(init, [jobs])
 
   const toggle = (index:number) => {
-    if (saveStatus[index]) {
-      deleteJob(index)
-      setSaveStatus(saveStatus.map((status,i) => {
-        if (i===index){
-          return false
-        } else {
-          return status
-        }
-      }))
-    } else {
-      saveJob(index)
-      setSaveStatus(saveStatus.map((status,i) => {
-        if (i===index){
-          return true
-        } else {
-          return status
-        }
-      }))
-    }
+    //checking the state, if it's saved, toggle will delete the job then change the state
+    if (saveStatus[index]) return deleteJob(index)
+     
+    //if not, it will save the job on server and change the state
+    return saveJob(index)
   }
 
-  const saveJob = (index:number) => {
+  const saveJob = async(index:number) => {
     const jobtoBeSaved = jobs[index]
-    if (loggedInEmail !== null) {
-      fetch('/api/save', {
+    
+    const response=await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([jobtoBeSaved, loggedInEmail])
       })
       .then(res => res.json())
-      .then(res => {
-        console.log('job saved')
-    })
-    }
-  }
+    await console.log('miao')
+    if (response.error) return console.log(response.error)
 
-  const deleteJob = (index: number) => {
+    return await setSaveStatus(saveStatus.map((status,i) => i === index? true : status))
+  }
+  
+
+  const deleteJob = async(index: number) => {
     const description = jobs[index].description
-    fetch(`/api/save/${description}`, {
+    const response = await fetch(`/api/save/${description}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
-      .then(res => {
-      console.log('job removed')
-    })
+    
+    return await setSaveStatus(saveStatus.map((status,i) => i === index? false: status))
   }
-
-
+  
   return (
     <>
-      <Container className="d-block g-1">
+      <Container className="d-block g-2">
         <IconContext.Provider value={{color:"rgb(110,223,94)", size:"2rem"}}>
           {jobs.length>0&&jobs.map((job:jobState, index: number) =>       
-            <Card key={index}>
-              <Card.Header>{job.location}</Card.Header>
+            <Card key={index} className='mb-2'>
+              <Card.Header className='d-flex justify-content-between'>
+                <Card.Text>Location: {job.location}</Card.Text>
+                {job.company&&<Card.Text>Company: {job.company}</Card.Text>}
+              </Card.Header>
               <Card.Body>
                 <Card.Title>{job.title}</Card.Title>
                 <Card.Text>

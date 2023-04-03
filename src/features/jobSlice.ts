@@ -4,7 +4,8 @@ interface Job {
   title: string;
   location: string;
   description: string;
-  url: string
+  url: string;
+  company: string;
 }
 
 interface jobState {

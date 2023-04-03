@@ -79,14 +79,11 @@ const SignUp = ({ signUp, errorMessage }:PropState) => {
             </div>
             <Form.Text style={{color:"rgb(110,223,94)"}} >
               {errors.confirmPassword?.message}
-            </Form.Text> 
-          </Form.Group>
-              {errorMessage&&<Form.Text style={{color:"rgb(110,223,94)"}} >
+            </Form.Text>   
+            {errorMessage&&<Form.Text style={{color:"rgb(110,223,94)"}} >
                 {errorMessage}
               </Form.Text>};
-              <Form.Text style={{color:"rgb(110,223,94)"}} >
-              {errors.root?.message}
-              </Form.Text>
+          </Form.Group>           
           <Button style={{backgroundColor:"rgb(110,223,94)", border:"none"}} disabled={isSubmitting} type="submit">
             Submit
           </Button>

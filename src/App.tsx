@@ -20,52 +20,42 @@ const App:React.FC = ():JSX.Element => {
   const navigate = useNavigate()
 
   const logIn = async(data:FieldValues) => {
-    await fetch('/api/sessions', {
+    const response = await fetch('/api/sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }) 
       .then(res => res.json())
-      .then(res => {
-        if (typeof res === 'string') {
-          dispatch(setUser({email: res}))
-          setErrorMessage(null)
-          navigate('/')         
-        } else {
-          setErrorMessage(res.error)
-        }
-        }
-      )  
+      
+    if (response.error) return setErrorMessage(response.error) 
+    await dispatch(setUser({email: response}))           
+    await setErrorMessage(null)
+    await navigate('/')         
   }
   
-  const getSavedJobList = ()  => {
-    if (loggedInEmail) {
-      fetch(`/api/save/${loggedInEmail}`)
+  const getSavedJobList = async()  => {
+    if (!loggedInEmail) return dispatch(reset())
+    
+    const response = await fetch(`/api/save/${loggedInEmail}`)
       .then(res => res.json())
-      .then(jobs => { 
-        dispatch(setSavedJob(jobs))
-        console.log(jobs)
-     })  
-    } else {
-      setSavedJob([])
-      console.log('no user logged in')
-    }   
-  } 
+    
+    if (response.error) return console.log(response.error)
+    
+    return await dispatch(setSavedJob(response))
+  }   
+  
   useEffect(() => {
     getSavedJobList();
     checkSession()
   }, [loggedInEmail]);
 
-  const checkSession = () => {
-    fetch('/api/sessions')
+  const checkSession = async() => {
+    const response = await fetch('/api/sessions')
     .then(res => res.json())
-    .then(email => {
-    if (typeof email === 'string') {
-      dispatch(setUser({email: email}))
-    } else {
-      console.log("no user logged in")
-    }
-  })
+
+    if (response.error) return console.log(response.error)
+    
+    return await dispatch(setUser({email: response}))
   }
 
   const signUp = async(data: FieldValues)=> {
@@ -74,38 +64,41 @@ const App:React.FC = ():JSX.Element => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
     })
-    if (response.status !==200) return console.log(response.body)
-    return navigate('/login')
+    .then(res => res.json())
+
+    if (response.error) return setErrorMessage(response.error)
+    await setErrorMessage(null)
+    await navigate('/login')
   }
 
   const logOut = async() => {
-    await fetch('/api/sessions', {
+    const response = await fetch('/api/sessions', {
       method: 'DELETE'
     })
     .then(res => res.json())
-    .then(res => {
-      console.log(res)
-      dispatch(removeUser({email: null}))
-  })
+
+    if (!response.error) return dispatch(removeUser({email: null}))
   }
   const handleSearch = async(data: FieldValues) => {
-    if (loggedInEmail === null) {
-      navigate('/login')
-      setErrorMessage('Please login first')
-      return
+    if (!loggedInEmail) {
+      navigate('/login')  
+      return setErrorMessage('Please login first')
     }
-    dispatch(reset())
-    const api_key  = await fetch('/api/search')
-      .then(res => res.json())
 
+    dispatch(reset())
+
+    const api_key = await fetch('/api/search')
+      .then(res => res.json())
+  
     const { title, location} = data
     const response= await fetch(`https://api.adzuna.com/v1/api/jobs/au/search/1?app_id=6fe66bca&app_key=${api_key}&title_only=${title}&where=${location}`)
       .then(res => res.json())
-    await console.log(response)
-    const searchResult = await response.results.forEach((job: any) => {
-      const { title, location, description, redirect_url
+    if (response.error) return console.log('miao')
+
+    await response.results.forEach((job: any) => {
+      const { title, location, description, redirect_url, company
       } = job 
-      dispatch(listingJob({title: title, location: location['display_name'], description: description, url: redirect_url}))
+      dispatch(listingJob({title: title, location: location['display_name'], description: description, url: redirect_url, company:company['display_name']}))
     }) 
     await navigate('/jobboard')
   }

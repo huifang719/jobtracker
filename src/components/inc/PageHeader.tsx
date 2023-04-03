@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Nav from 'react-bootstrap/Nav';
+
+import { Nav, Offcanvas }from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { IoLogIn, IoEarthOutline, IoLogOut } from 'react-icons/io5'
@@ -48,6 +48,7 @@ const PageHeader = ( { logOut, handleSearch }: PropState ) => {
               {!loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} as={Link} to="../SignUp"><IoEarthOutline />Sign up</Nav.Link>}
               {loggedInEmail&&<Nav.Link style={{color:"rgb(51,73,96)"}} onClick={ logOut }><IoLogOut />Logout</Nav.Link>}
             </IconContext.Provider>
+            {loggedInEmail&&<p>Logged in as {loggedInEmail}</p>}
           </Nav>
           <Quote />
         </Offcanvas.Body>
