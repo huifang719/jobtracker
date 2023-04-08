@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Job {
-  title: string;
-  location: string;
-  description: string;
-  url: string;
-  company: string;
-}
+import Job from "../Jobs";
 
 interface jobState {
   value: Job[] 

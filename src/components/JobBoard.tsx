@@ -3,15 +3,7 @@ import { useSelector } from 'react-redux';
 import { Container, Button, Card } from 'react-bootstrap';
 import { IconContext } from "react-icons"
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
-import { useNavigate } from 'react-router-dom';
-
-interface jobState {
-  title: string, 
-  location: string,
-  description: string,
-  url: string,
-  company: string
-}
+import Job from "../Jobs"
 
 const JobBoard: React.FC  = () => {
   const jobs = useSelector((state:any) => state.job.value)
@@ -21,7 +13,7 @@ const JobBoard: React.FC  = () => {
 
   // I would like the site to fetch the status whether the job has been saved or not from the backend, then saved into the state, so that jobs wont be saved twice or more times
   const init = () =>{
-    jobs.length>0&&jobs.forEach((job:jobState) => {
+    jobs.length>0&&jobs.forEach((job:Job) => {
     var  description= job.description
     const response = fetch(`/api/save/${loggedInEmail}/${description}`) 
       .then(res => res.json())
@@ -74,7 +66,7 @@ const JobBoard: React.FC  = () => {
     <>
       <Container className="d-block g-2">
         <IconContext.Provider value={{color:"rgb(110,223,94)", size:"2rem"}}>
-          {jobs.length>0&&jobs.map((job:jobState, index: number) =>       
+          {jobs.length>0&&jobs.map((job:Job, index: number) =>       
             <Card key={index} className='mb-2'>
               <Card.Header className='d-flex justify-content-between'>
                 <Card.Text>Location: {job.location}</Card.Text>

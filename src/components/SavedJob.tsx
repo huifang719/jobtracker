@@ -1,20 +1,13 @@
 import { Container, Button, Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-
-interface jobState {
-  title: string, 
-  location: string,
-  description: string,
-  url: string,
-  company: string
-}
+import Job from "../Jobs"
 
 const SavedJob:React.FC = () => {
   const savedJobList = useSelector((state: any) => state.savedJob.value)
   
   return (
     <Container className="d-block g-2">
-      {savedJobList.length>0 && savedJobList.map((job:jobState, index: number) =>      
+      {savedJobList.length>0 && savedJobList.map((job:Job, index: number) =>      
           <Card key={index} className='mb-2'>
             <Card.Header  className='d-flex justify-content-between'>
             <Card.Text>Location: {job.location}</Card.Text>
