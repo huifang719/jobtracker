@@ -5,7 +5,6 @@ import { Container } from 'react-bootstrap';
 import { IconContext } from 'react-icons';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import ShowStrength from './inc/ShowStrength'
-import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm, FieldValues } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
