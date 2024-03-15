@@ -25,6 +25,8 @@ const JobBoard: React.FC = () => {
               return setSaveStatus((saveStatus) => [...saveStatus, false]);
             return setSaveStatus((saveStatus) => [...saveStatus, true]);
           });
+
+        return response;
       });
   };
 
