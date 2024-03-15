@@ -67,7 +67,7 @@ const JobBoard: React.FC = () => {
         method: "DELETE",
       }
     ).then((res) => res.json());
-
+    if (response.error) return console.log(response.error);
     return await setSaveStatus(
       saveStatus.map((status, i) => (i === index ? false : status))
     );
